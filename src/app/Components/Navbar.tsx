@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, Search, User } from "lucide-react";
-import AuthModel from "./AuthModel";
+import AuthModel from "@/app/Components/AuthModel";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
