@@ -187,15 +187,17 @@ const allProducts: Record<string, Product[]> = {
   ],
 };
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+interface CategoryPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default function CategoryPage({ params }: CategoryPageProps) {
   const category = categories.find((cat) => cat.slug === params.slug);
 
   if (!category) {
-    return notFound();
+    notFound();
   }
 
   const products = allProducts[params.slug as keyof typeof allProducts] || [];
@@ -377,11 +379,7 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for each category
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export async function generateMetadata({ params }: CategoryPageProps) {
   const category = categories.find((cat) => cat.slug === params.slug);
 
   if (!category) {
