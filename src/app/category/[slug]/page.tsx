@@ -187,13 +187,7 @@ const allProducts: Record<string, Product[]> = {
   ],
 };
 
-interface CategoryPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default function CategoryPage({ params }: CategoryPageProps) {
+export default function CategoryPage({ params }: { params: { slug: string } }) {
   const category = categories.find((cat) => cat.slug === params.slug);
 
   if (!category) {
@@ -371,38 +365,23 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   );
 }
 
-// Generate static paths for all categories
+// Static generation
 export async function generateStaticParams() {
   return categories.map((category) => ({
     slug: category.slug,
   }));
 }
 
-// Generate metadata for each category
-export async function generateMetadata({ params }: CategoryPageProps) {
+// Metadata generation
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const category = categories.find((cat) => cat.slug === params.slug);
 
-  if (!category) {
-    return {
-      title: "Category Not Found",
-    };
-  }
-
   return {
-    title: `${category.name} | Sports Support Gear`,
-    description: category.description,
-    metadataBase: new URL("http://localhost:3000"),
-    openGraph: {
-      title: `${category.name} | Sports Support Gear`,
-      description: category.description,
-      images: [
-        {
-          url: category.image,
-          width: 800,
-          height: 600,
-          alt: category.name,
-        },
-      ],
-    },
+    title: category?.name || "Category Not Found",
+    description: category?.description,
   };
 }
