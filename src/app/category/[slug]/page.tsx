@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../Components/Navbar";
 
-// Define your category data and products
+// Type definitions
 interface Category {
   name: string;
   image: string;
@@ -24,6 +24,7 @@ interface Product {
   badge?: string;
 }
 
+// Data
 const categories: Category[] = [
   {
     name: "Neck Braces",
@@ -51,7 +52,6 @@ const categories: Category[] = [
   },
 ];
 
-// Sample products for each category
 const allProducts: Record<string, Product[]> = {
   "neck-braces": [
     {
@@ -187,6 +187,14 @@ const allProducts: Record<string, Product[]> = {
   ],
 };
 
+// Fix for Next.js PageProps type
+declare module "next" {
+  interface PageProps {
+    params: { slug: string };
+    searchParams?: { [key: string]: string | string[] | undefined };
+  }
+}
+
 export default function CategoryPage({ params }: { params: { slug: string } }) {
   const category = categories.find((cat) => cat.slug === params.slug);
 
@@ -199,7 +207,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navbar />
-      {/* Category Hero Section */}
       <div className="relative bg-gray-900">
         <div className="relative h-64 md:h-80 w-full overflow-hidden">
           <Image
@@ -222,7 +229,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
         </div>
       </div>
 
-      {/* Products Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold text-gray-900">
@@ -240,7 +246,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                 key={product.id}
                 className="bg-white group relative border border-gray-200 rounded-lg hover:shadow-lg transition-shadow duration-200 h-full flex flex-col"
               >
-                {/* Product Image */}
                 <div className="relative pt-[100%] bg-gray-50 rounded-t-lg overflow-hidden">
                   {product.badge && (
                     <span
@@ -262,7 +267,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                   />
                 </div>
 
-                {/* Product Info */}
                 <div className="p-4 mt-auto">
                   <h3 className="text-md font-medium text-gray-900 line-clamp-2 min-h-[40px]">
                     {product.name}
@@ -271,7 +275,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                     {product.description}
                   </p>
 
-                  {/* Rating */}
                   <div className="flex items-center mt-2 mb-1">
                     <div className="flex">
                       {[1, 2, 3, 4, 5].map((star) => (
@@ -294,7 +297,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                     </span>
                   </div>
 
-                  {/* Price */}
                   <div className="mt-2">
                     <span className="text-lg font-bold text-[#B12704]">
                       {product.price}
@@ -306,7 +308,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                     )}
                   </div>
 
-                  {/* Prime Badge */}
                   {product.isPrime && (
                     <div className="mt-1 flex items-center">
                       <div className="bg-[#00A8E1] text-white text-[10px] font-bold px-1 rounded mr-1">
@@ -318,7 +319,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                     </div>
                   )}
 
-                  {/* View Details Button */}
                   <Link
                     href={`/products/${product.id}`}
                     className="mt-3 w-full block text-center bg-[#FFD814] hover:bg-[#F7CA00] border border-[#FCD200] text-gray-900 py-2 rounded text-sm font-medium transition"
@@ -342,7 +342,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
         )}
       </section>
 
-      {/* Category Description */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 bg-white rounded-lg shadow-sm">
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           About {category.name}
@@ -365,14 +364,12 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   );
 }
 
-// Static generation
 export async function generateStaticParams() {
   return categories.map((category) => ({
     slug: category.slug,
   }));
 }
 
-// Metadata generation
 export async function generateMetadata({
   params,
 }: {
@@ -383,5 +380,17 @@ export async function generateMetadata({
   return {
     title: category?.name || "Category Not Found",
     description: category?.description,
+    openGraph: {
+      title: category?.name || "Category Not Found",
+      description: category?.description || "",
+      images: [
+        {
+          url: category?.image || "",
+          width: 800,
+          height: 600,
+          alt: category?.name || "Category image",
+        },
+      ],
+    },
   };
 }
