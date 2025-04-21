@@ -187,11 +187,8 @@ const allProducts: Record<string, Product[]> = {
   ],
 };
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default function CategoryPage({ params }: { params: { slug: string } }) {
+  // No changes needed here - params is automatically available
   const category = categories.find((cat) => cat.slug === params.slug);
 
   if (!category) {
