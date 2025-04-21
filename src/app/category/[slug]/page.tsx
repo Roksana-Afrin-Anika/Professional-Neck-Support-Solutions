@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../Components/Navbar";
-
+import type { PageProps } from "next";
 // Type definitions
 interface Category {
   name: string;
@@ -195,7 +195,9 @@ declare module "next" {
   }
 }
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+export default function CategoryPage({
+  params,
+}: PageProps & { params: { slug: string } }) {
   const category = categories.find((cat) => cat.slug === params.slug);
 
   if (!category) {

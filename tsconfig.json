@@ -19,7 +19,11 @@
       "@components/*": ["./src/app/Components/*"],
       "@/*": ["./src/*"]
     },
-    "types": ["next/types", "./src/types/next"],
+    "types": [
+      "next/types",
+      "./src/types/next",
+      "./node_modules/next/types/index.d.ts"
+    ],
     "plugins": [
       {
         "name": "next"
