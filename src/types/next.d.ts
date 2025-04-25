@@ -1,8 +1,8 @@
 import "next";
 
 declare module "next" {
-  interface PageProps {
+  export type PageParams<T = {}> = T & {
     params: Record<string, string>;
     searchParams?: Record<string, string | string[] | undefined>;
-  }
+  };
 }
