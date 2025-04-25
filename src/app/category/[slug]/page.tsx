@@ -2,8 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../Components/Navbar";
-//import type { PageProps } from "next";
-import type { PageParams } from "next";
+
 // Type definitions
 interface Category {
   name: string;
@@ -189,11 +188,12 @@ const allProducts: Record<string, Product[]> = {
 };
 
 // Remove the custom PageProps type and use this instead:
-interface PageProps {
-  params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-export default function CategoryPage({ params }: PageProps) {
+type Params = {
+  slug: string;
+};
+
+export default function CategoryPage({ params }: { params: Params }) {
+  // Rest of your component implementation remains the same
   const category = categories.find((cat) => cat.slug === params.slug);
 
   if (!category) {
@@ -362,17 +362,13 @@ export default function CategoryPage({ params }: PageProps) {
   );
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<Params[]> {
   return categories.map((category) => ({
     slug: category.slug,
   }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export async function generateMetadata({ params }: { params: Params }) {
   const category = categories.find((cat) => cat.slug === params.slug);
 
   return {
