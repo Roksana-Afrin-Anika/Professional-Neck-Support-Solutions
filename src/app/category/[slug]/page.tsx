@@ -187,20 +187,14 @@ const allProducts: Record<string, Product[]> = {
   ],
 };
 
-// Remove the custom PageProps type and use this instead:
-type Params = {
-  slug: string;
-};
-
-export default function CategoryPage({ params }: { params: Params }) {
-  // Rest of your component implementation remains the same
+// Component definition
+export default function CategoryPage({ params }: { params: { slug: string } }) {
   const category = categories.find((cat) => cat.slug === params.slug);
-
   if (!category) {
     notFound();
   }
 
-  const products = allProducts[params.slug as keyof typeof allProducts] || [];
+  const products = allProducts[params.slug] || [];
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -362,13 +356,19 @@ export default function CategoryPage({ params }: { params: Params }) {
   );
 }
 
-export async function generateStaticParams(): Promise<Params[]> {
+// Static generation
+export async function generateStaticParams() {
   return categories.map((category) => ({
     slug: category.slug,
   }));
 }
 
-export async function generateMetadata({ params }: { params: Params }) {
+// Metadata generation
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const category = categories.find((cat) => cat.slug === params.slug);
 
   return {
