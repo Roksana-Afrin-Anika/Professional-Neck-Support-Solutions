@@ -189,9 +189,12 @@ const allProducts: Record<string, Product[]> = {
 };
 
 // Fix for Next.js PageProps type
-interface PageProps {
-  params: { slug: string };
-}
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
 export default function CategoryPage({ params }: PageProps) {
   const category = categories.find((cat) => cat.slug === params.slug);
 
