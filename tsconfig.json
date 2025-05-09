@@ -20,7 +20,8 @@
     ],
 
     "paths": {
-      "@components/*": ["./src/app/Components/*"]
+      "@components/*": ["./src/app/Components/*"],
+      "@/*": ["./src/*"]
     },
     "types": ["next/types", "./src/types/next"]
   },
