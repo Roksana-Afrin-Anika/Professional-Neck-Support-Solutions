@@ -186,7 +186,13 @@ const allProducts: Record<string, Product[]> = {
   ],
 };
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default function CategoryPage({ params }: PageProps) {
   const category = categories.find((cat) => cat.slug === params.slug);
   if (!category) return notFound();
 
