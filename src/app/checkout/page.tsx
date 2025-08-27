@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 import Navbar from "../Components/Navbar";
 import Image from "next/image";
 import Link from "next/link";
@@ -100,7 +101,7 @@ const allProducts: Product[] = [
     image: "/category/Recovery-Gear/3.jpg",
   },
 ];
-export const dynamic = "force-dynamic";
+
 export default function CheckoutPage() {
   const searchParams = useSearchParams();
   const [cartItems, setCartItems] = useState<Product[]>([]);
