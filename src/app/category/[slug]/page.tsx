@@ -24,10 +24,6 @@ interface Product {
   badge?: string;
 }
 
-interface CategoryPageProps {
-  params: { slug: string };
-}
-
 const categories: Category[] = [
   {
     name: "Neck Braces",
@@ -190,7 +186,7 @@ const allProducts: Record<string, Product[]> = {
   ],
 };
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({ params }: any) {
   const { slug } = params;
   const category = categories.find((cat) => cat.slug === slug);
   if (!category) return notFound();
