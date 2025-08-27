@@ -1,5 +1,5 @@
 // src/app/category/[slug]/page.tsx
-import type { Metadata } from "next";
+
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Navbar from "../../Components/Navbar";
@@ -186,16 +186,17 @@ const allProducts: Record<string, Product[]> = {
   ],
 };
 
-interface PageProps {
+export default async function CategoryPage({
+  params,
+}: {
   params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-export default function CategoryPage({ params }: PageProps) {
-  const category = categories.find((cat) => cat.slug === params.slug);
+}) {
+  // ✅ await params first
+  const { slug } = params;
+  const category = categories.find((cat) => cat.slug === slug);
   if (!category) return notFound();
 
-  const products = allProducts[params.slug] || [];
+  const products = allProducts[slug] || [];
 
   return (
     <div className="bg-gray-100 min-h-screen">
