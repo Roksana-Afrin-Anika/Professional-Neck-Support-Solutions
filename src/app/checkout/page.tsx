@@ -126,6 +126,7 @@ export default function CheckoutPage() {
 
   // Initialize cart from URL parameters and localStorage
   useEffect(() => {
+    if (typeof window === "undefined") return;
     // Load cart from localStorage if available
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
@@ -133,7 +134,7 @@ export default function CheckoutPage() {
     }
 
     // Check for productId in URL to add to cart
-    const productId = searchParams ? searchParams.get("productId") : null;
+    const productId = searchParams?.get("productId");
     if (productId) {
       addToCart(Number(productId));
     }
@@ -146,6 +147,7 @@ export default function CheckoutPage() {
 
   // Add product to cart or increment quantity if already exists
   const addToCart = (productId: number) => {
+    if (typeof window === "undefined") return; // prevent SSR
     const productToAdd = allProducts.find((p) => p.id === productId);
     if (!productToAdd) return;
 
